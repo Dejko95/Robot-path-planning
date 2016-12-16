@@ -78,5 +78,9 @@ public class Point implements Comparable<Point> {
 		
 		return ax * by == bx * ay;
 	}
+	
+	public double distanceFrom(Point q) {
+		return Math.sqrt((x - q.x) * (x - q.x) + (y - q.y) * (y - q.y));
+	}
 
 }
