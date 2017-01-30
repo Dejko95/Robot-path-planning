@@ -37,27 +37,23 @@ public class Dijkstra implements Runnable {
 	
 	@Override
 	public void run() {
+		Menu.setSpeed(5);
+		
 		while (pq.size() > 0) {
 			State st = pq.poll();
 			Point p =st.point;
-			System.out.println("Point: " + p.x + "," + p.y);
 			Double d = st.dist;
 			if (Math.abs(ShortestPaths.dist.get(p) - d) > 0.000001) continue;
 			ShortestPaths.dijkstraTree.add(new Line(p, st.parent));
 			try {
-				Thread.sleep(1000);
+				Thread.sleep((10-Menu.speedValue) * 100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			ShortestPaths.panel.repaint();
-//			try {
-//				panel.repaint();
-//				Thread.sleep(500);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+
+			if (p == ShortestPaths.endPoint) break;
 			for (Point q : p.adjList) {
 				if (ShortestPaths.dist.get(q) > d + p.distanceFrom(q)) {
 					st = new State();
@@ -71,6 +67,8 @@ public class Dijkstra implements Runnable {
 		}
 
 		ShortestPaths.dijkstraRunning = false;
+		ShortestPaths.dijkstraFinished = true;
+		ShortestPaths.panel.repaint();
 	}
 		
 }

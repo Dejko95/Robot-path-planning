@@ -9,14 +9,12 @@ public class SArray implements Structure {
 	
 	@Override
 	public void addLine(Line l) {
-		// TODO Auto-generated method stub
 		if (!lines.contains(l))
 			lines.add(l);
 	}
 
 	@Override
 	public void removeLine(Line l) {
-		// TODO Auto-generated method stub
 		lines.remove(l);
 	}
 
@@ -25,9 +23,7 @@ public class SArray implements Structure {
 		if (lines.size() == 0) return null;
 		Line min = lines.get(0);
 		for (Line line : lines) {
-			Point s = ShortestPaths.currCenter;
-			Point p = ShortestPaths.currPoint;
-			if (line.distanceFromPoint(s, p) < min.distanceFromPoint(s, p)) {
+			if (line.compareTo(min) < 0) {
 				min = line;
 			}
 		}

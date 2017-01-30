@@ -3,6 +3,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 public class Window extends JFrame {
 	public Window(Panel panel) {
@@ -13,18 +15,12 @@ public class Window extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_UP && !ShortestPaths.reading) {
-					System.out.println("space");
-					ShortestPaths.makeVisibilityGraph();
-				}
-			}
-		});
-		
 		getContentPane().setLayout(new BorderLayout());
-		getContentPane().add(panel, BorderLayout.CENTER);
-		//SgetContentPane().add(new Menu(), BorderLayout.EAST);
+		JPanel tmp = new JPanel();
+		tmp.setBorder(new EmptyBorder(15, 15, 15, 15));
+		tmp.setLayout(new BorderLayout());
+		tmp.add(panel, BorderLayout.CENTER);
+		getContentPane().add(tmp, BorderLayout.CENTER);
+		getContentPane().add(new Menu(), BorderLayout.NORTH);
 	}
 }

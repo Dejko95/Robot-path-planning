@@ -3,6 +3,8 @@ import java.util.Collections;
 
 public class VisibilityGraph implements Runnable {
 
+	static Line firstLine = null;
+	
 	public VisibilityGraph() {
 		ShortestPaths.visibilityGraphRunning = true;
 		Thread th = new Thread(this);
@@ -12,18 +14,12 @@ public class VisibilityGraph implements Runnable {
 	@Override
 	public void run() {
 		for (Point sPoint : ShortestPaths.allPoints) {
+			
 			ShortestPaths.currCenter = sPoint;
-//			try {
-//				Thread.sleep(500);
-//			} catch (InterruptedException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-//			ShortestPaths.panel.repaint();
-//			System.out.println("---");
 			
-			Structure str = new SArray();
+			Structure str = new SHeap();
 			
+			ShortestPaths.currPoint = new Point(9999, sPoint.y);
 			//init structure with all lines that cross horizontal line from point
 			for (Line line : ShortestPaths.allLines) {
 				if (line.intersectHalfLine(sPoint)) {
@@ -49,16 +45,17 @@ public class VisibilityGraph implements Runnable {
 				}
 			}
 			
-			//for (Point point : otherPoints) {
 			for (int index=0; index<otherPoints.size(); index++) {
+				firstLine = null;
 				Point point = otherPoints.get(index);
 				ShortestPaths.currPoint = point;
 				
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if (Menu.speedValue < 10) {
+					try {
+						Thread.sleep((10-Menu.speedValue) * 20);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 				ShortestPaths.panel.repaint();
 				
@@ -70,17 +67,16 @@ public class VisibilityGraph implements Runnable {
 				if (inside && point == sPoint.prev) inside = false;
 				
 				if (!inside && !colinear) {
-					Line firstLine = str.minimum();
+					firstLine = str.minimum();
 					if (firstLine == null || !firstLine.intersectWithLine(new Line(sPoint, point))) {
 						sPoint.connectWith(point);
-						try {
-							Thread.sleep(100);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						ShortestPaths.panel.repaint();
 					}
+					try {
+						Thread.sleep((10-Menu.speedValue) * 20);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					ShortestPaths.panel.repaint();
 				}
 				for (int i=0; i<point.adjEdges.size(); i++) {
 					Point adj;

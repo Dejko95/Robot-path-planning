@@ -52,22 +52,6 @@ public class Point implements Comparable<Point> {
 			return dy * dx1 - dy1 * dx; 
 		else								//jesu kolinearne -> gledamo rastojanje (kvadrat)
 			return (dx*dx + dy*dy) - (dx1*dx1 + dy1*dy1);
-		
-		//provera da li su na istoj pravoj!!! ili tg ne postoji
-		
-		/*
-		if (kv == 0) {
-			//dy/dx < dy1/dx1
-			return dy*dx1 - dy1*dx;
-		}
-		else if (kv == 1) {
-			//dy/dx < dy1/dx1
-			return dy * dx1 - dy1 * dx;
-		}
-		else if (kv == 2) {
-			
-		}
-		*/
 	}
 	
 	static boolean colinear(Point s, Point a, Point b) {
@@ -81,6 +65,36 @@ public class Point implements Comparable<Point> {
 	
 	public double distanceFrom(Point q) {
 		return Math.sqrt((x - q.x) * (x - q.x) + (y - q.y) * (y - q.y));
+	}
+
+	@Override
+	public String toString() {
+		return "(" + x + "," + y + ")";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + x;
+		result = prime * result + y;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Point other = (Point) obj;
+		if (x != other.x)
+			return false;
+		if (y != other.y)
+			return false;
+		return true;
 	}
 
 }
